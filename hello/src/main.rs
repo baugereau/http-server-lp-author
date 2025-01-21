@@ -1,4 +1,4 @@
 fn main() {
-  let s : &str = "Hello UMET!";
+  let s : &str = "Hello and welcome to my learning project!";
   println!("{}", s);
 }
