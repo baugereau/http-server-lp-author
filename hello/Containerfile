@@ -1,0 +1,14 @@
+# attempt to transform the Dockerfile into a Containerfile and using Podman, buildah and crun tools
+
+FROM docker.io/library/rust:1.84 AS buildbase
+WORKDIR /usr/src/myapp
+RUN rustup target add wasm32-wasip1
+
+FROM buildbase AS build
+COPY Cargo.toml .
+COPY src/ ./src/
+RUN cargo build --target wasm32-wasip1 --release
+
+FROM scratch
+COPY --from=build /usr/src/myapp/target/wasm32-wasip1/release/hello.wasm /hello.wasm
+ENTRYPOINT [ "/hello.wasm" ]
