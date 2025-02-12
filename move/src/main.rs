@@ -11,6 +11,8 @@ fn main() {
   let hello : String = String::from("Hello");
   borrow(&hello); // From borrow(): Hello WasmEdge!
   println!("From main(): {}", hello); // From main(): Hello
+  let new_hello = borrow(&hello);
+  println!("From main() calling borrow(): {}", new_hello);
 }
 
 fn take (mut s: String) {
@@ -18,8 +20,9 @@ fn take (mut s: String) {
   println!("From take(): {}", s);
 }
 
-fn borrow (s: &String) {
+fn borrow (s: &String) -> String {
   let mut buf = String::from(s);
   buf.push_str(" WasmEdge!");
   println!("From borrow(): {}", buf);
+  buf
 }
